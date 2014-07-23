@@ -22,7 +22,8 @@ var (
 	ErrPlayerNotFound = errors.New("mcaccutils: player not found")
 
 	// CacheDuration can be used to modify the duration fetched names and UUIDs
-	// are cached for.
+	// are cached for. Making this duration very short can make it much easier
+	// to go over the Mojang rate limits, so it is not recommended.
 	CacheDuration = 12 * time.Hour
 )
 
