@@ -17,9 +17,9 @@ var (
 	// added to the cache.
 	dataCache = cache.New(1*time.Hour, 1*time.Minute)
 
-	// PlayerNotFoundError is an error returned when no player is found for the
+	// ErrPlayerNotFound is an error returned when no player is found for the
 	// specified query.
-	PlayerNotFoundError = errors.New("mcaccutils: player not found")
+	ErrPlayerNotFound = errors.New("mcaccutils: player not found")
 
 	// CacheDuration can be used to modify the duration fetched names and UUIDs
 	// are cached for.
@@ -55,7 +55,7 @@ func GetNames(uuid string) (names []string, err error) {
 		return nil, err
 	}
 	if len(names) == 0 {
-		return nil, PlayerNotFoundError
+		return nil, ErrPlayerNotFound
 	}
 	// Return the decoded names.
 	return decResp, nil
@@ -119,7 +119,7 @@ func GetUUID(n string) (uuid string, name string, err error) {
 	}
 	// Make sure the lookup was a success.
 	if decResp.Count < 1 {
-		return "", "", PlayerNotFoundError
+		return "", "", ErrPlayerNotFound
 	}
 	u := strings.Replace(decResp.Profiles[0].UUID, "-", "", -1)
 	p = &playerCacheData{UUID: u, Username: n}
