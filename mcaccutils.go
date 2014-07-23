@@ -12,11 +12,6 @@ import (
 )
 
 var (
-	// dataCache is the memory cache for all names. The default expiration time
-	// means nothing, because CacheDuration is used in all cases when values are
-	// added to the cache.
-	dataCache = cache.New(1*time.Hour, 1*time.Minute)
-
 	// ErrPlayerNotFound is an error returned when no player is found for the
 	// specified query.
 	ErrPlayerNotFound = errors.New("mcaccutils: player not found")
@@ -25,6 +20,11 @@ var (
 	// are cached for. Making this duration very short can make it much easier
 	// to go over the Mojang rate limits, so it is not recommended.
 	CacheDuration = 12 * time.Hour
+
+	// dataCache is the memory cache for all names. The default expiration time
+	// means nothing, because CacheDuration is used in all cases when values are
+	// added to the cache.
+	dataCache = cache.New(1*time.Hour, 1*time.Minute)
 )
 
 type playerCacheData struct {
@@ -35,7 +35,7 @@ type playerCacheData struct {
 // GetNames produces a list of all usernames ever owned by the specified UUID, in
 // unspecified order.
 //
-// The result of this function is not cached, so use with caution.
+// The result of this function is not cached, so it should be used with caution.
 func GetNames(uuid string) (names []string, err error) {
 	uuid = strings.Replace(uuid, "-", "", -1)
 	// Fetch the account info API for this player UUID.
