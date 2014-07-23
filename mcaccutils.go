@@ -35,7 +35,8 @@ type playerCacheData struct {
 // GetNames produces a list of all usernames ever owned by the specified UUID, in
 // unspecified order.
 //
-// The result of this function is not cached, so it should be used with caution.
+// The result of this function is not cached, so it should be used with caution
+// so as to avoid running into the Mojang rate limit.
 func GetNames(uuid string) (names []string, err error) {
 	uuid = strings.Replace(uuid, "-", "", -1)
 	// Fetch the account info API for this player UUID.
